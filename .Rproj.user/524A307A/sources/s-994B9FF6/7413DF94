@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1561993464383.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "7413DF94",
+    "lastKnownWriteTime" : 1562071347,
+    "last_content_update" : 1562071347645,
+    "path" : "~/solver/R/solver.R",
+    "project_path" : "R/solver.R",
+    "properties" : {
+        "cursorPosition" : "111,77",
+        "scrollLine" : "97"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
