@@ -1,5 +1,5 @@
 {
-    "path" : "~/solver/man",
+    "path" : "~/solver/tests/testthat",
     "sortOrder" : [
         {
             "ascending" : true,

@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1562099620790.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F61890E1",
+    "lastKnownWriteTime" : 1562099475,
+    "last_content_update" : 1562099475,
+    "path" : "~/solver/tests/testthat/test-errors.R",
+    "project_path" : "tests/testthat/test-errors.R",
+    "properties" : {
+        "cursorPosition" : "13,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,66 @@
+function() {
+  return(
+    list(
+      eggs = list(
+        formula = eggs ~ -1 + population:month + I((outputPriceL1 / deflatorL1)  *
+                                                     population) + I((feedPriceL1 / deflatorL1) * population)
+      ),
+      chicks = list(formula = chicks ~ -1 + I(0.5 * eggs + 0.5 * eggsL1):month + I((outputPriceL2 /
+                                                                                      deflatorL2)  * (0.5 * eggs + 0.5 * eggsL1)
+      ) + I((feedPriceL2 / deflatorL2) *                                                                                                                       (0.5 * eggs + 0.5 * eggsL1)
+      )),
+      
+      avgWeight = list(
+        formula = avgWeight ~ month + I(slaughterL1 / headL1) + I(outputPriceL1 / deflatorL1) + I(feedPriceL1 / deflatorL1) + date
+      #  formula = avgWeight ~ 1
+      ),
+      head = list(
+        formula = head ~ -1 + chicksL1 + chicksL2 + chicksL3 + I(1 / 3 * chicksL1 + 1 /
+                                                                   3 * chicksL2 + 1 / 3 * chicksL3):month     + I(
+                                                                     outputPriceL1 / deflator * (1 /
+                                                                                                   3 * chicksL1 + 1 / 3 * chicksL2 + 1 / 3 * chicksL3)
+                                                                   )   + I(
+                                                                     feedPriceL1 /
+                                                                       deflator * I(1 / 3 * chicksL1 + 1 / 3 * chicksL2 + 1 / 3 * chicksL3)
+                                                                   )
+      ),
+      outputPrice = list(
+        formula = log(outputPrice) ~ log(feedPriceL6) + log(feedPriceL3) + log(disposableIncome /
+                                                                                 population) + log(population) + log(nonUSGDP)  + log(dollarIndexL3)  + log(dollarIndexL6) + log(Beef) + log(Pork) + log(Turkey) + month,
+        postProcessing = function(data, model) {
+          data$phat[!is.element(1:NROW(data), model$na.action)] = exp(model$fitted.values)
+          print(data[,c('phat','outputPrice')])
+          return(data)
+        }
+      ),
+      production = list(
+        formula = production ~ I(avgWeight * head) + head + I(avgWeight * head * outputPriceL1 /
+                                                                deflatorL1)
+      ),
+      consumption = list(
+        formula = log(consumption) ~ log(consumptionL1) + log(phat) +
+          log(disposableIncome / population) + log(population) + month + log(Turkey) + log(Beef) + log(Pork),
+        replace = list(phat = quote(outputPrice))
+      ),
+      exports = list(
+        formula = log(exports) ~ log(nonUSGDP) + log(phat) + log(dollarIndex) +
+          month,
+        replace = list(phat = quote(outputPrice))
+        
+      ),
+      imports = list(
+        formula = log(imports) ~ log(phat) + log(disposableIncome / population) +
+          log(population) + log(dollarIndex) + month,
+        replace = list(phat = quote(outputPrice))
+        
+      ),
+      endingStocks = list(
+        formula = log(endingStocks) ~ log(phat) + log(disposableIncome / population) +
+          log(population) + month,
+        replace = list(phat = quote(outputPrice))
+        
+      ),
+      condemnations = list(formula = condemnations ~ -1 + production)
+    )
+  )
+}
