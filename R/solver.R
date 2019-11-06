@@ -56,7 +56,7 @@ jacobian <- function(formulas, endogenous, exogenous, pert = 0.001) {
 
 doIteration <- function(endogenous, exogenous, formulas) {
     j = jacobian(endogenous = endogenous, exogenous = exogenous, formulas = formulas)
-    result = unlist(endogenous) - 0.95 * c(base::solve(j) %*% unlist(errors(formulas = formulas, endogenous = endogenous, exogenous = exogenous)))
+    result = unlist(endogenous) - 0.5 * c(base::solve(j) %*% unlist(errors(formulas = formulas, endogenous = endogenous, exogenous = exogenous)))
     return(utils::relist(flesh = result, skeleton = endogenous))
 }
 
@@ -119,4 +119,17 @@ solveSystem <- function(formulas, endogenous, exogenous, lowerBounds = NULL, upp
     return(list(results = endogenous, totalError = currentError, iterations = it))
 }
 
+#' Presolve a system--i.e., find which variables may be calculated directly and return a set of solved variables and the remaining equations.
+#'
+#' \code{presolveSystem} returns all differences between the left and right sides of a list of formula (errors).
+#'
+#' @param formulas A list of formulas
+#' @return A list of remaining formulas and solved variables
+#' @export
+#' @examples
+#' errors(formulas =
+#'           list(price = price ~ 0.3 * variablecost + coefficient1,
+#'                variablecost  = variablecost ~ 0.5 * price + coefficient2),
+#'        endogenous = list(price = 1, variablecost=0.4),
+#'        exogenous = list(coefficient1=0.56, coefficient2=0.7))
 
